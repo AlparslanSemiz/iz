@@ -1,0 +1,252 @@
+{
+ "aciklama": "Python ve TS ortak kurallar: satir_red (dogrula ilk hata), kanonik (bayt bayt), kanonik_red (ikisi de reddeder), onek (defter-onek). Python ile üretildi.",
+ "satir_red": [
+  {
+   "ad": "CRLF satır sonu",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\r\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\r\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\r\n",
+   "beklenen": "satır 1: kanonik biçimde değil"
+  },
+  {
+   "ad": "boşluklu yeniden biçim",
+   "icerik": "{\"anahtar\": \"k-001\", \"gerekce\": \"basit; ağır değil\", \"hash\": \"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\", \"karar\": \"REST seç\", \"kim\": \"alp\", \"onceki\": \"0000000000000000000000000000000000000000000000000000000000000000\", \"ozne\": \"ürün/api\", \"sema_surumu\": 1, \"sira\": 1, \"tur\": \"karar\", \"zaman\": \"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: kanonik biçimde değil"
+  },
+  {
+   "ad": "ensure_ascii kaçışlı yeniden yazım",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; a\\u011f\\u0131r de\\u011fil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST se\\u00e7\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"\\u00fcr\\u00fcn/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: kanonik biçimde değil"
+  },
+  {
+   "ad": "anahtar sırası bozuk",
+   "icerik": "{\"zaman\":\"2026-11-19T10:00:00Z\",\"tur\":\"karar\",\"sira\":1,\"sema_surumu\":1,\"ozne\":\"ürün/api\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"kim\":\"alp\",\"karar\":\"REST seç\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"gerekce\":\"basit; ağır değil\",\"anahtar\":\"k-001\"}\n",
+   "beklenen": "satır 1: kanonik biçimde değil"
+  },
+  {
+   "ad": "aynı anahtar iki kez (ilki sahte karar)",
+   "icerik": "{\"karar\":\"SAHTE\",\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: kanonik biçimde değil"
+  },
+  {
+   "ad": "sira ondalık 1.0",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1.0,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: kanonik biçimde değil"
+  },
+  {
+   "ad": "sira üslü 1e0",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1e0,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: kanonik biçimde değil"
+  },
+  {
+   "ad": "sira true (hash yeniden hesaplı)",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"0649c01308578baeff2812f5b37f0211ce135314f3f0ef73445ff0e633855219\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":true,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: sıra tam sayı değil"
+  },
+  {
+   "ad": "sira metin",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"5954490ab2897d68b9241fd779debdebecdf80cff53ab909ff1a86d65f5ef844\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":\"1\",\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: sıra tam sayı değil"
+  },
+  {
+   "ad": "sira güvenli aralık dışı",
+   "icerik": "{\"anahtar\":\"a\",\"gerekce\":\"g\",\"hash\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"karar\":\"k\",\"kim\":\"k\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"o\",\"sira\":9007199254740993,\"tur\":\"t\",\"zaman\":\"z\"}\n",
+   "beklenen": "satır 1: kanonik biçimde değil"
+  },
+  {
+   "ad": "eşsiz vekil karakter kaçışı",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"\\ud800REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: kanonik biçimde değil"
+  },
+  {
+   "ad": "NaN sabiti",
+   "icerik": "{\"sira\":NaN}\n",
+   "beklenen": "satır 1: JSON değil"
+  },
+  {
+   "ad": "UTF-8 BOM",
+   "icerik": "﻿{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: JSON değil"
+  },
+  {
+   "ad": "geçersiz UTF-8",
+   "icerik_b64": "eyJhbmFodGFyIjoiay0wMDEiLCJnZXJla2NlIjoiYmFzaXQ7IGHEn8SxciBkZcSfaWwiLCJoYXNoIjoiM2VhZDRmZWEyM2M1OWQwY2I0ZGZiYjBkZDc5ZGZjZDdhNmUwNjAxYmZiODQ2ODA1MWM5N2IyNDQ5OWE0YzdiYSIsImthcmFyIjoiUkVTVCBzZcOnIiwia2ltIjoiYWxwIiwib25jZWtpIjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIm96bmUiOiL//i9hcGkiLCJzZW1hX3N1cnVtdSI6MSwic2lyYSI6MSwidHVyIjoia2FyYXIiLCJ6YW1hbiI6IjIwMjYtMTEtMTlUMTA6MDA6MDBaIn0K",
+   "beklenen": "satır 1: UTF-8 değil"
+  },
+  {
+   "ad": "nesne değil",
+   "icerik": "[1,2]\n",
+   "beklenen": "satır 1: JSON değil"
+  },
+  {
+   "ad": "ortada boş satır",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n",
+   "beklenen": "satır 2: boş satır"
+  },
+  {
+   "ad": "yarım son satır",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\n{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağ",
+   "beklenen": "satır 4: yarım satır (satır sonu yok; kurtarma: iz defter-onar)"
+  },
+  {
+   "ad": "son satır sonu eksik",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}",
+   "beklenen": "satır 1: yarım satır (satır sonu yok; kurtarma: iz defter-onar)"
+  },
+  {
+   "ad": "eksik alan",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"d84c8aafa957b7bfb44fabe2b2f888e0f88e96087ad88d5367d79596340361bc\",\"karar\":\"REST seç\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: eksik alan kim"
+  },
+  {
+   "ad": "anahtar liste",
+   "icerik": "{\"anahtar\":[\"k-001\"],\"gerekce\":\"basit; ağır değil\",\"hash\":\"909063c3c6ab38b719aa8ea96ae476f82c9ef7363e7867cba673eff97c6629b6\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: alan anahtar metin değil"
+  },
+  {
+   "ad": "anahtar nesne",
+   "icerik": "{\"anahtar\":{\"a\":1},\"gerekce\":\"basit; ağır değil\",\"hash\":\"bc5d93f89a8c9a7dc535a1667b1dc9ded33e67101aab716d0a1ff0b1a9507624\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: alan anahtar metin değil"
+  },
+  {
+   "ad": "karar null",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"29c697ae64106a39dc82bc90143bf46255d1c228304fe801a437b7d395fcd4cf\",\"karar\":null,\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: alan karar metin değil"
+  },
+  {
+   "ad": "kim boş",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"884686e9c8241da68550c49c7f304bf3b1ae66ed54ab01409b72e88233d2d87a\",\"karar\":\"REST seç\",\"kim\":\"\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: alan kim boş"
+  },
+  {
+   "ad": "zaman biçimi",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"df1934ce907b131b7dd62040926e6fadcc57b83f50a3b8851c0bdf8256afec02\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"dün\"}\n",
+   "beklenen": "satır 1: alan zaman biçimi geçersiz"
+  },
+  {
+   "ad": "önceki büyük harf hex",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"d1c0691e2904fec68dc69c25edbb28bd46df4da218f67c38a8ec4360c6751758\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: alan onceki biçimi geçersiz"
+  },
+  {
+   "ad": "sıra hatası",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"8d194d1de12b755ce44107a87bce09f76af6ca5d4a8616bf0f061d5cc4580864\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: sıra 2 beklenen 1"
+  },
+  {
+   "ad": "önceki özet hatası",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"a701d2b3c297ac5618bcf73cb8062b4b664b1a1d61959a726888719cb1f35b83\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n",
+   "beklenen": "satır 2: önceki özet uyuşmuyor"
+  },
+  {
+   "ad": "özet hatası",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"SOAP seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n",
+   "beklenen": "satır 1: özet uyuşmuyor"
+  },
+  {
+   "ad": "anahtar tekrarı",
+   "icerik": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-001\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"5a782e64fd859129d90e3483f340746c30c25a42c8602e0c2d775f7a252bcd78\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n",
+   "beklenen": "satır 2: anahtar tekrarı k-001"
+  }
+ ],
+ "kanonik": [
+  {
+   "deger": {
+    "b": 1,
+    "a": {
+     "z": [
+      3,
+      {
+       "y": null,
+       "x": true
+      }
+     ],
+     "10": "on",
+     "9": "dokuz"
+    }
+   },
+   "kanonik": "{\"a\":{\"10\":\"on\",\"9\":\"dokuz\",\"z\":[3,{\"x\":true,\"y\":null}]},\"b\":1}"
+  },
+  {
+   "deger": {
+    "￿": 1,
+    "𐀀": 2,
+    "é": 3,
+    "e": 4
+   },
+   "kanonik": "{\"e\":4,\"é\":3,\"￿\":1,\"𐀀\":2}"
+  },
+  {
+   "deger": {
+    "m": "tırnak \" ters \\ satır\n sekme\t ham\u0001      😀 şçğ"
+   },
+   "kanonik": "{\"m\":\"tırnak \\\" ters \\\\ satır\\n sekme\\t ham\\u0001      😀 şçğ\"}"
+  },
+  {
+   "deger": {
+    "n": [
+     -9007199254740991,
+     0,
+     9007199254740991,
+     false
+    ]
+   },
+   "kanonik": "{\"n\":[-9007199254740991,0,9007199254740991,false]}"
+  }
+ ],
+ "kanonik_red": [
+  {
+   "a": 1.5
+  },
+  {
+   "a": 9007199254740992
+  },
+  {
+   "a": -9007199254740992
+  },
+  {
+   "a": "\ud800"
+  },
+  {
+   "a": [
+    "x\udc00y"
+   ]
+  }
+ ],
+ "onek": [
+  {
+   "ad": "aynı dosya",
+   "eski": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\n",
+   "yeni": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\n",
+   "beklenen": null
+  },
+  {
+   "ad": "boş eski",
+   "eski": "",
+   "yeni": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\n",
+   "beklenen": null
+  },
+  {
+   "ad": "sona ekleme",
+   "eski": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n",
+   "yeni": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\n",
+   "beklenen": null
+  },
+  {
+   "ad": "son satır silindi",
+   "eski": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\n",
+   "yeni": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n",
+   "beklenen": "satır 3: yeni defter eskisinden kısa (kuyruk kesilmiş); defter yalnız sona eklenebilir"
+  },
+  {
+   "ad": "ilk karar değişti",
+   "eski": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\n",
+   "yeni": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"SOAP seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\n",
+   "beklenen": "satır 1 (bayt 135): eski içerik değişmiş; defter yalnız sona eklenebilir"
+  },
+  {
+   "ad": "ikinci satır silindi",
+   "eski": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-002\",\"gerekce\":\"tırnak \\\" ve satır\\nsonu\",\"hash\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"karar\":\"kırmızıyı geçici kabul\",\"kim\":\"takim\",\"onceki\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"ozne\":\"ci\",\"sema_surumu\":1,\"sira\":2,\"tur\":\"istisna\",\"zaman\":\"2026-11-19T10:05:00Z\"}\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\n",
+   "yeni": "{\"anahtar\":\"k-001\",\"gerekce\":\"basit; ağır değil\",\"hash\":\"3ead4fea23c59d0cb4dfbb0dd79dfcd7a6e0601bfb8468051c97b24499a4c7ba\",\"karar\":\"REST seç\",\"kim\":\"alp\",\"onceki\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"ozne\":\"ürün/api\",\"sema_surumu\":1,\"sira\":1,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:00:00Z\"}\n{\"anahtar\":\"k-003\",\"gerekce\":\"tek kullanıcı\",\"hash\":\"52b489cbd7d1e6fa07dffaf8f9b102337247f9b33ab57b897309e91552df9767\",\"karar\":\"sqlite\",\"kim\":\"alp\",\"onceki\":\"c4edabc42678bab960569d6473096827396b62f7f4fcfb76913e05bfdd27de32\",\"ozne\":\"ürün/db\",\"sema_surumu\":1,\"sira\":3,\"tur\":\"karar\",\"zaman\":\"2026-11-19T10:10:00Z\"}\n",
+   "beklenen": "satır 2 (bayt 341): eski içerik değişmiş; defter yalnız sona eklenebilir"
+  }
+ ]
+}

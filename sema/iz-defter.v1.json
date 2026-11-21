@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AlparslanSemiz/iz/sema/iz-defter.v1.json",
+  "title": "iz karar defteri kaydı, sürüm 1",
+  "description": "`iz/defter.jsonl` içindeki her satır (kanonik JSON: anahtarlar sıralı, boşluksuz). `hash` = sha256(kanonik(kayıt - hash)); `onceki` öncekinin hash'i, ilk kayıtta 64 sıfır. `sema_surumu` yoksa kayıt v1 sayılır (0.1.x kayıtları); varsa hash'e dahildir. Zincir, sıra ve anahtar tekliği şemayla değil `iz defter-dogrula` ile sınanır. Alan eklemek minor, alan silmek ya da anlamını değiştirmek major sürümdür.",
+  "type": "object",
+  "required": ["sira", "onceki", "tur", "ozne", "karar", "gerekce", "kim", "anahtar", "zaman", "hash"],
+  "additionalProperties": true,
+  "properties": {
+    "sema_surumu": {"const": 1, "description": "Kayıt biçimi sürümü; yoksa 1."},
+    "sira": {"type": "integer", "minimum": 1},
+    "onceki": {"$ref": "#/$defs/hex64"},
+    "tur": {"type": "string", "minLength": 1, "description": "Örn. karar, istisna."},
+    "ozne": {"type": "string"},
+    "karar": {"type": "string"},
+    "gerekce": {"type": "string"},
+    "kim": {"type": "string", "minLength": 1},
+    "anahtar": {"type": "string", "minLength": 1, "description": "Defterde tekil; aynı anahtar reddedilir."},
+    "zaman": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$", "description": "UTC ISO 8601."},
+    "hash": {"$ref": "#/$defs/hex64"}
+  },
+  "$defs": {
+    "hex64": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

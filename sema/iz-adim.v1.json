@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AlparslanSemiz/iz/sema/iz-adim.v1.json",
+  "title": "iz adım günlüğü kaydı, sürüm 1",
+  "description": "`.iz/kosular/<kosu>.jsonl` içindeki her satır. `sema_surumu` yoksa kayıt v1 sayılır (0.1.x kayıtları). Ek alanlara izin verilir: alan eklemek minor sürümdür; alan silmek ya da anlamını değiştirmek major sürüm ve yeni şema dosyası (v2) ister.",
+  "type": "object",
+  "required": ["kosu", "adim", "ust", "ad", "baslangic", "bitis", "sure_ms", "sonuc", "hata", "girdi", "cikti", "arac_surumu", "nitelikler"],
+  "additionalProperties": true,
+  "properties": {
+    "sema_surumu": {"const": 1, "description": "Kayıt biçimi sürümü; yoksa 1."},
+    "kosu": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$", "description": "Koşu kimliği (IZ_KOSU ya da UUIDv7); OTel trace_id."},
+    "adim": {"type": "string", "pattern": "^[0-9a-f]{16}$", "description": "Adım kimliği; OTel span_id."},
+    "ust": {"type": ["string", "null"], "pattern": "^[0-9a-f]{16}$", "description": "Üst adımın kimliği; kök adımda null."},
+    "ad": {"type": "string", "minLength": 1},
+    "baslangic": {"$ref": "#/$defs/zaman"},
+    "bitis": {"$ref": "#/$defs/zaman"},
+    "sure_ms": {"type": "integer", "minimum": 0},
+    "sonuc": {"enum": ["tamam", "hata"]},
+    "hata": {"type": ["string", "null"], "description": "İstisna sınıfının adı (maskeli); sonuc tamam ise null."},
+    "girdi": {"type": "array", "items": {"$ref": "#/$defs/dosya"}},
+    "cikti": {"type": "array", "items": {"$ref": "#/$defs/dosya"}},
+    "arac_surumu": {"type": ["string", "null"], "description": "git kısa commit; git yoksa null."},
+    "nitelikler": {"type": "object", "description": "Maskeli serbest nitelikler."}
+  },
+  "allOf": [
+    {"if": {"properties": {"sonuc": {"const": "tamam"}}}, "then": {"properties": {"hata": {"type": "null"}}}},
+    {"if": {"properties": {"sonuc": {"const": "hata"}}}, "then": {"properties": {"hata": {"type": "string"}}}}
+  ],
+  "$defs": {
+    "zaman": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$", "description": "UTC, milisaniyeli ISO 8601."},
+    "dosya": {
+      "type": "object",
+      "required": ["yol", "sha256"],
+      "additionalProperties": true,
+      "properties": {
+        "yol": {"type": "string"},
+        "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$", "description": "Dosya yoksa null."}
+      }
+    }
+  }
+}
