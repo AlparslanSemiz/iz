@@ -7,6 +7,10 @@ Sürümleme semver'e uyar ve kayıt biçimi sözleşmesine bağlıdır:
 
 Okuyucu N ve N-1 biçimini okur, daha eskisini ve bilmediği ileri sürümü reddeder.
 
+## Yayımlanmamış
+
+- vitest 4.1.12'ye yükseltildi (tinypool/@vitest/mocker güvenlik açıkları; yalnız geliştirme bağımlılığı).
+
 ## 0.7.0 (2026-11-21)
 
 İlk public sürüm. MIT lisansı (`LICENSE`); geçmiş sürümlerin (0.1.0-0.3.0) notları aşağıda korunur. Kayıt biçimi değişmedi (`sema_surumu: 1`). Önceki özel dağıtımdaki 0.2.1 düzeltmesi (NaN/Infinity ile standart dışı JSON yazılmaması) 0.3.0'dan beri daha güçlü karşılanır: NaN/sonsuz günlükte `null` yazılır.
